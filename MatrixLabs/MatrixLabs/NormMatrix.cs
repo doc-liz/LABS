@@ -13,19 +13,12 @@ public class NormMatrix : Matrix,
         Norm();
     }
 
-    private NormMatrix(Matrix matrix) : base(matrix.Size)
+    protected NormMatrix(Matrix matrix) : base(matrix)
     {
-        for (var i = 0; i < matrix.Size; i++)
-        {
-            for (var j = 0; j < matrix.Size; j++)
-            {
-                values[i, j] = matrix[i, j];
-            }
-        }
         Norm();
     }
 
-    public int this[int i, int j]
+    public override double this[int i, int j]
     {
         get => values[i, j];
         set
@@ -34,10 +27,16 @@ public class NormMatrix : Matrix,
             Norm();
         }
     }
+
     private static NormMatrix ToNorm(Matrix matrix) => new NormMatrix(matrix);
+
     private void Norm()
     {
-        throw new NotImplementedException();
+        var det = Determinator();
+        for (var i = 0; i < Size; i++)
+        {
+            values[i, 0] = (int)(values[i, 0] / det);
+        }
     }
 
     public static NormMatrix operator +(NormMatrix left, Matrix right)

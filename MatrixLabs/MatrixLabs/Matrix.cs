@@ -11,16 +11,36 @@ public class Matrix :
 {
     // Реализовать операции сложения, вычитания и умножения матриц.
 
-    protected int[,] values;
+    protected double[,] values;
     public int Size;
 
     public Matrix(int size)
     {
         Size = size;
-        values = new int[Size,Size];
+        values = new double[Size, Size];
+        for (var i = 0; i < Size; i++)
+        {
+            for (var j = 0; j < Size; j++)
+            {
+                values[i, j] = 0;
+            }
+        }
     }
 
-    public int this[int i, int j]
+    protected Matrix(Matrix matrix)
+    {
+        Size = matrix.Size;
+        values = new double[Size, Size];
+        for (var i = 0; i < Size; i++)
+        {
+            for (var j = 0; j < Size; j++)
+            {
+                values[i, j] = matrix[i, j];
+            }
+        }
+    }
+
+    public virtual double this[int i, int j]
     {
         get => values[i, j];
         set => values[i, j] = value;
@@ -81,6 +101,7 @@ public class Matrix :
                 result[i, j] = left[i, j] * right;
             }
         }
+
         return result;
     }
 
@@ -93,9 +114,56 @@ public class Matrix :
             {
                 str.Append($"{values[i, j]}\t");
             }
+
             str.Append(Environment.NewLine);
         }
-    
+
         return str.ToString();
+    }
+
+    public double Determinator()
+    {
+        var det = 1.0;
+        var gaussMatr = MethodGaussa();
+        for (var i = 0; i < Size; i++)
+            det *= gaussMatr[i, i];
+        return det;
+    }
+
+    private Matrix MethodGaussa()
+    {
+        var gaussMatr = new Matrix(this);
+        for (var k = 0; k < Size - 1; k++)
+        {
+            for (var j = k + 1; j < Size; j++)
+            {
+                if (!(gaussMatr[k, k] == 0))
+                {
+                    double koe = gaussMatr[j, k] / gaussMatr[k, k];
+
+                    for (var i = k; i < Size; i++)
+                    {
+                        gaussMatr[j, i] -= (int)koe * gaussMatr[k, i];
+                    }
+                }
+            }
+        }
+
+        return gaussMatr;
+    }
+
+    public static Matrix CreateRandom(int size)
+    {
+        var result = new Matrix(size);
+        var rnd = new Random();
+        for (int i = 0; i < size; i++)
+        {
+            for (int j = 0; j < size; j++)
+            {
+                result[i, j] = rnd.Next(10, 99);
+            }
+        }
+
+        return result;
     }
 }
