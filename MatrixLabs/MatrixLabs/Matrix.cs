@@ -3,11 +3,12 @@ using System.Text;
 
 namespace MatrixLabs;
 
-public class Matrix :
-    IAdditionOperators<Matrix, Matrix, Matrix>,
-    ISubtractionOperators<Matrix, Matrix, Matrix>,
-    IMultiplyOperators<Matrix, Matrix, Matrix>,
-    IMultiplyOperators<Matrix, int, Matrix>
+public class Matrix<T>:
+    IAdditionOperators<Matrix<T>, Matrix<T>, Matrix<T>>,
+    ISubtractionOperators<Matrix<T>, Matrix<T>, Matrix<T>>,
+    IMultiplyOperators<Matrix<T>, Matrix<T>, Matrix<T>>,
+    IMultiplyOperators<Matrix<T>, int, Matrix<T>>
+where T : INumber<T>
 {
     // Реализовать операции сложения, вычитания и умножения матриц.
 
@@ -27,7 +28,7 @@ public class Matrix :
         }
     }
 
-    protected Matrix(Matrix matrix)
+    protected Matrix(Matrix<T> matrix)
     {
         Size = matrix.Size;
         values = new double[Size, Size];
@@ -46,9 +47,9 @@ public class Matrix :
         set => values[i, j] = value;
     }
 
-    public static Matrix operator +(Matrix left, Matrix right)
+    public static Matrix<T> operator +(Matrix<T> left, Matrix<T> right)
     {
-        var result = new Matrix(left.Size);
+        var result = new Matrix<T>(left.Size);
         for (var i = 0; i < left.Size; i++)
         {
             for (var j = 0; j < left.Size; j++)
@@ -60,9 +61,9 @@ public class Matrix :
         return result;
     }
 
-    public static Matrix operator -(Matrix left, Matrix right)
+    public static Matrix<T> operator -(Matrix<T> left, Matrix<T> right)
     {
-        var result = new Matrix(left.Size);
+        var result = new Matrix<T>(left.Size);
         for (var i = 0; i < left.Size; i++)
         {
             for (var j = 0; j < left.Size; j++)
@@ -74,9 +75,9 @@ public class Matrix :
         return result;
     }
 
-    public static Matrix operator *(Matrix left, Matrix right)
+    public static Matrix<T> operator *(Matrix<T> left, Matrix<T> right)
     {
-        var result = new Matrix(left.Size);
+        var result = new Matrix<T>(left.Size);
         for (var i = 0; i < left.Size; i++)
         {
             for (var j = 0; j < left.Size; j++)
@@ -91,9 +92,9 @@ public class Matrix :
         return result;
     }
 
-    public static Matrix operator *(Matrix left, int right)
+    public static Matrix<T> operator *(Matrix<T> left, int right)
     {
-        var result = new Matrix(left.Size);
+        var result = new Matrix<T>(left.Size);
         for (var i = 0; i < left.Size; i++)
         {
             for (var j = 0; j < left.Size; j++)
@@ -130,9 +131,9 @@ public class Matrix :
         return det;
     }
 
-    private Matrix MethodGaussa()
+    private Matrix<T> MethodGaussa()
     {
-        var gaussMatr = new Matrix(this);
+        var gaussMatr = new Matrix<T>(this);
         for (var k = 0; k < Size - 1; k++)
         {
             for (var j = k + 1; j < Size; j++)
@@ -152,9 +153,9 @@ public class Matrix :
         return gaussMatr;
     }
 
-    public static Matrix CreateRandom(int size)
+    public static Matrix<T> CreateRandom(int size)
     {
-        var result = new Matrix(size);
+        var result = new Matrix<T>(size);
         var rnd = new Random();
         for (int i = 0; i < size; i++)
         {
