@@ -3,27 +3,27 @@ using System.Text;
 
 namespace MatrixLabs;
 
-public class Matrix<T>:
+public class Matrix<T> :
     IAdditionOperators<Matrix<T>, Matrix<T>, Matrix<T>>,
     ISubtractionOperators<Matrix<T>, Matrix<T>, Matrix<T>>,
     IMultiplyOperators<Matrix<T>, Matrix<T>, Matrix<T>>,
-    IMultiplyOperators<Matrix<T>, int, Matrix<T>>
-where T : INumber<T>
+    IMultiplyOperators<Matrix<T>, T, Matrix<T>>
+    where T : INumber<T>
 {
     // Реализовать операции сложения, вычитания и умножения матриц.
 
-    protected double[,] values;
+    protected T[,] values;
     public int Size;
 
     public Matrix(int size)
     {
         Size = size;
-        values = new double[Size, Size];
+        values = new T[Size, Size];
         for (var i = 0; i < Size; i++)
         {
             for (var j = 0; j < Size; j++)
             {
-                values[i, j] = 0;
+                values[i, j] = T.Zero;
             }
         }
     }
@@ -31,7 +31,7 @@ where T : INumber<T>
     protected Matrix(Matrix<T> matrix)
     {
         Size = matrix.Size;
-        values = new double[Size, Size];
+        values = new T[Size, Size];
         for (var i = 0; i < Size; i++)
         {
             for (var j = 0; j < Size; j++)
@@ -41,7 +41,9 @@ where T : INumber<T>
         }
     }
 
-    public virtual double this[int i, int j]
+    public NormMatrix<T> ToNormMatrix() => NormMatrix<T>.ToNorm(this);
+
+    public virtual T this[int i, int j]
     {
         get => values[i, j];
         set => values[i, j] = value;
@@ -92,7 +94,7 @@ where T : INumber<T>
         return result;
     }
 
-    public static Matrix<T> operator *(Matrix<T> left, int right)
+    public static Matrix<T> operator *(Matrix<T> left, T right)
     {
         var result = new Matrix<T>(left.Size);
         for (var i = 0; i < left.Size; i++)
@@ -113,7 +115,7 @@ where T : INumber<T>
         {
             for (var j = 0; j < Size; j++)
             {
-                str.Append($"{values[i, j]}\t");
+                str.Append(values[i, j].ToString() + '\t');
             }
 
             str.Append(Environment.NewLine);
@@ -122,13 +124,19 @@ where T : INumber<T>
         return str.ToString();
     }
 
-    public double Determinator()
+    public static Matrix<T> CreateRandom(int size)
     {
-        var det = 1.0;
-        var gaussMatr = MethodGaussa();
-        for (var i = 0; i < Size; i++)
-            det *= gaussMatr[i, i];
-        return det;
+        var result = new Matrix<T>(size);
+        var rnd = new Random();
+        for (var i = 0; i < size; i++)
+        {
+            for (var j = 0; j < size; j++)
+            {
+                result[i, j] = T.Parse(rnd.Next(10, 99).ToString(), null);
+            }
+        }
+
+        return result;
     }
 
     private Matrix<T> MethodGaussa()
@@ -138,13 +146,13 @@ where T : INumber<T>
         {
             for (var j = k + 1; j < Size; j++)
             {
-                if (!(gaussMatr[k, k] == 0))
+                if (gaussMatr[k, k] != T.Zero)
                 {
-                    double koe = gaussMatr[j, k] / gaussMatr[k, k];
+                    var koe = gaussMatr[j, k] / gaussMatr[k, k];
 
                     for (var i = k; i < Size; i++)
                     {
-                        gaussMatr[j, i] -= (int)koe * gaussMatr[k, i];
+                        gaussMatr[j, i] -= koe * gaussMatr[k, i];
                     }
                 }
             }
@@ -153,18 +161,12 @@ where T : INumber<T>
         return gaussMatr;
     }
 
-    public static Matrix<T> CreateRandom(int size)
+    public T Determinant()
     {
-        var result = new Matrix<T>(size);
-        var rnd = new Random();
-        for (int i = 0; i < size; i++)
-        {
-            for (int j = 0; j < size; j++)
-            {
-                result[i, j] = rnd.Next(10, 99);
-            }
-        }
-
-        return result;
+        var det = T.One;
+        var gaussMatr = MethodGaussa();
+        for (var i = 0; i < Size; i++)
+            det *= gaussMatr[i, i];
+        return det;
     }
 }

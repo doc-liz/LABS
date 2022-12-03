@@ -77,7 +77,7 @@ public class Container<T> where T : INumber<T>
         {
             for (int k = 0; k < matrix.Size; k++)
             {
-                if (matrix[j, k] < 0)
+                if (matrix[j, k] < T.Zero)
                 {
                     return true;
                 }
