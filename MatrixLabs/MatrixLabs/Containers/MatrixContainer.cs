@@ -10,6 +10,8 @@ public abstract class MatrixContainer<T> where T : INumber<T>
 
     public abstract void SwitchLastFirst();
 
+    public abstract void Print();
+
     protected bool IsContainsNegative(Matrix<T> matrix)
     {
         for (var j = 0; j < matrix.Size; j++)

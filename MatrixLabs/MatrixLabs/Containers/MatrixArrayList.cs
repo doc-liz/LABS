@@ -52,4 +52,12 @@ public class MatrixArrayList<T> : MatrixContainer<T> where T : INumber<T>
     {
         (matrices[0], matrices[^1]) = (matrices[^1], matrices[0]);
     }
+    
+    public override void Print()
+    {
+        foreach (var matrix in matrices)
+        {
+            Console.WriteLine(matrix + Environment.NewLine);
+        }
+    }
 }

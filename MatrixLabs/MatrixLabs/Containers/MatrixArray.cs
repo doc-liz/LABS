@@ -42,13 +42,23 @@ public class MatrixArray<T> : MatrixContainer<T> where T : INumber<T>
             {
                 continue;
             }
+
             list.Add(matrix);
         }
 
         matrices = list.ToArray();
     }
+
     public override void SwitchLastFirst()
     {
         (matrices[0], matrices[^1]) = (matrices[^1], matrices[0]);
+    }
+
+    public override void Print()
+    {
+        foreach (var matrix in matrices)
+        {
+            Console.WriteLine(matrix + Environment.NewLine);
+        }
     }
 }
