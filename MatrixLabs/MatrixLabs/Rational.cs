@@ -30,7 +30,7 @@ public struct Rational : INumber<Rational>
         return i;
     }
 
-    public override string ToString() => $"{C}/{Z}";
+    public override string ToString() => Z!=1 ? $"{C}/{Z}" : $"{C}";
 
     public string ToString(string? format, IFormatProvider? formatProvider) => ToString();
 
@@ -41,10 +41,10 @@ public struct Rational : INumber<Rational>
     #region Операторы математических операций
 
     public static Rational operator +(Rational left, Rational right)
-        => new Rational(left.C * right.Z + left.Z * right.Z, left.Z * right.Z);
+        => new Rational(left.C * right.Z + left.Z * right.C, left.Z * right.Z);
 
     public static Rational operator -(Rational left, Rational right)
-        => new Rational(left.C * right.Z - left.Z * right.Z, left.Z * right.Z);
+        => new Rational(left.C * right.Z - left.Z * right.C, left.Z * right.Z);
 
     public static Rational operator /(Rational left, Rational right)
         => new Rational(left.C * right.Z, left.Z * right.C);
@@ -63,22 +63,22 @@ public struct Rational : INumber<Rational>
     #region Операторы сравнения
 
     public static bool operator ==(Rational left, Rational right)
-        => left.C * right.Z == left.Z * right.Z;
+        => left.C * right.Z == left.Z * right.C;
 
     public static bool operator !=(Rational left, Rational right)
-        => left.C * right.Z != left.Z * right.Z;
+        => left.C * right.Z != left.Z * right.C;
 
     public static bool operator >(Rational left, Rational right)
-        => left.C * right.Z > left.Z * right.Z;
+        => left.C * right.Z > left.Z * right.C;
 
     public static bool operator >=(Rational left, Rational right)
-        => left.C * right.Z >= left.Z * right.Z;
+        => left.C * right.Z >= left.Z * right.C;
 
     public static bool operator <(Rational left, Rational right)
-        => left.C * right.Z < left.Z * right.Z;
+        => left.C * right.Z < left.Z * right.C;
 
     public static bool operator <=(Rational left, Rational right)
-        => left.C * right.Z <= left.Z * right.Z;
+        => left.C * right.Z <= left.Z * right.C;
 
     #endregion
 
