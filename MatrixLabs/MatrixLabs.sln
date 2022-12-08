@@ -2,6 +2,8 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MatrixLabs", "MatrixLabs\MatrixLabs.csproj", "{33DBF7C5-5A19-4CCE-9F93-730D7D3F4ED0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UIMatrixCalculator", "UIMatrixCalculator\UIMatrixCalculator.csproj", "{831012A0-FF59-4F85-84A1-E4D8832007D5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +14,9 @@ Global
 		{33DBF7C5-5A19-4CCE-9F93-730D7D3F4ED0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{33DBF7C5-5A19-4CCE-9F93-730D7D3F4ED0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{33DBF7C5-5A19-4CCE-9F93-730D7D3F4ED0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{831012A0-FF59-4F85-84A1-E4D8832007D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{831012A0-FF59-4F85-84A1-E4D8832007D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{831012A0-FF59-4F85-84A1-E4D8832007D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{831012A0-FF59-4F85-84A1-E4D8832007D5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
