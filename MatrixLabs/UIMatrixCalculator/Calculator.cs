@@ -1,15 +1,17 @@
 using System.Drawing.Drawing2D;
+using System.Numerics;
 using MatrixLabs;
 using UIMatrixCalculator.Components;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace UIMatrixCalculator;
 
 public partial class Calculator : Form
 {
-    private MatrixTextBoxes matrixA;
+    private MatrixTextBoxes matrixA;  
     private MatrixTextBoxes matrixB;
     private MatrixResultText matrixResult;
-
+    private string type;
     public Calculator()
     {
         InitializeComponent();
@@ -19,8 +21,8 @@ public partial class Calculator : Form
         AddPlusButton();
         AddMinusButton();
         AddMultiplyButton();
-        AddNormButton();
-        AddDetButton();
+        //AddNormButton();
+        //AddDetButton();
         AddRndButton();
     }
 
@@ -54,43 +56,6 @@ public partial class Calculator : Form
         Controls.Add(plus);
     }
 
-    private void AddNormButton()
-    {
-        var plus = new Button();
-        plus.Text = "ToNorm";
-        plus.Size = new Size(49, 49);
-        plus.Location = new Point(350, 0);
-        plus.Click += NormClick;
-        Controls.Add(plus);
-    }
-
-    private void NormClick(object? sender, EventArgs e)
-    {
-        Remove(matrixB.GetCells());
-        var result = matrixA.CreateMatrix().ToNormMatrix();
-        ResetResult(result);
-    }
-
-    private void DetClick(object? sender, EventArgs e)
-    {
-        Remove(matrixB.GetCells());
-        var a = matrixA.CreateMatrix();
-        var d = a.Determinant();
-        var result = new Matrix<Rational>(1);
-        result[0, 0] = d;
-        ResetResult(result);
-    }
-
-    private void AddDetButton()
-    {
-        var plus = new Button();
-        plus.Text = "Det";
-        plus.Size = new Size(49, 49);
-        plus.Location = new Point(400, 0);
-        plus.Click += DetClick;
-        Controls.Add(plus);
-    }
-
     private void AddRndButton()
     {
         var plus = new Button();
@@ -111,35 +76,80 @@ public partial class Calculator : Form
 
     private void SetSizeClick(object sender, EventArgs e)
     {
+        type = comboBox1.Text;
         RemoveMatrix();
         AddMatrix();
     }
 
     private void PlusClick(object sender, EventArgs e)
     {
-        var a = matrixA.CreateMatrix();
-        var b = matrixB.CreateMatrix();
-        var result = a + b;
-        ResetResult(result);
+        switch (type)
+        {
+            case "int":
+                ResetResult( matrixA.CreateMatrix<int>() + matrixB.CreateMatrix<int>());
+                break;
+            case "float":
+                ResetResult(matrixA.CreateMatrix<float>() + matrixB.CreateMatrix<float>());
+                break;
+            case "double":
+                ResetResult(matrixA.CreateMatrix<double>() + matrixB.CreateMatrix<double>());
+                break;
+            case "rational":
+                ResetResult(matrixA.CreateMatrix<Rational>() + matrixB.CreateMatrix<Rational>());
+                break;
+            default:
+                ResetResult(matrixA.CreateMatrix<int>() + matrixB.CreateMatrix<int>());
+                break;
+        }
+        
+        
     }
 
     private void MinusClick(object? sender, EventArgs e)
     {
-        var a = matrixA.CreateMatrix();
-        var b = matrixB.CreateMatrix();
-        var result = a - b;
-        ResetResult(result);
+        switch (type)
+        {
+            case "int":
+                ResetResult(matrixA.CreateMatrix<int>() - matrixB.CreateMatrix<int>());
+                break;
+            case "float":
+                ResetResult(matrixA.CreateMatrix<float>() - matrixB.CreateMatrix<float>());
+                break;
+            case "double":
+                ResetResult(matrixA.CreateMatrix<double>() - matrixB.CreateMatrix<double>());
+                break;
+            case "rational":
+                ResetResult(matrixA.CreateMatrix<Rational>() - matrixB.CreateMatrix<Rational>());
+                break;
+            default:
+                ResetResult(matrixA.CreateMatrix<int>() - matrixB.CreateMatrix<int>());
+                break;
+        }
     }
 
     private void MultiplyClick(object? sender, EventArgs e)
     {
-        var a = matrixA.CreateMatrix();
-        var b = matrixB.CreateMatrix();
-        var result = a * b;
-        ResetResult(result);
+        switch (type)
+        {
+            case "int":
+                ResetResult(matrixA.CreateMatrix<int>() * matrixB.CreateMatrix<int>());
+                break;
+            case "float":
+                ResetResult(matrixA.CreateMatrix<float>() * matrixB.CreateMatrix<float>());
+                break;
+            case "double":
+                ResetResult(matrixA.CreateMatrix<double>() * matrixB.CreateMatrix<double>());
+                break;
+            case "rational":
+                ResetResult(matrixA.CreateMatrix<Rational>() * matrixB.CreateMatrix<Rational>());
+                break;
+            default:
+                ResetResult(matrixA.CreateMatrix<int>() * matrixB.CreateMatrix<int>());
+                break;
+        }
     }
 
-    public void ResetResult(Matrix<Rational> matrix)
+    public void ResetResult<T>(Matrix<T> matrix) where T: INumber<T>
     {
         Remove(matrixResult.GetCells());
         Controls.AddRange(matrixResult.GetCells());
@@ -150,6 +160,7 @@ public partial class Calculator : Form
     {
         var size = int.Parse(SetSizeTestBox.Text.Trim());
         CashSize = size;
+        
         matrixA = new MatrixTextBoxes(size, new Point(100, 100));
         matrixB = new MatrixTextBoxes(size, new Point(150 + matrixA.Width, 100));
         matrixResult = new MatrixResultText(size, new Point((150 + matrixA.Width) / 2, matrixA.Height + 150));

@@ -1,4 +1,5 @@
 ﻿using System.Drawing.Drawing2D;
+using System.Numerics;
 using MatrixLabs;
 
 namespace UIMatrixCalculator.Components;
@@ -35,7 +36,7 @@ public class MatrixResultText
         }
     }
 
-    public void SetMatrix(Matrix<Rational> matrix)
+    public void SetMatrix<T>(Matrix<T> matrix) where T : INumber<T>
     {
         for (var i = 0; i < Size; i++)
         {

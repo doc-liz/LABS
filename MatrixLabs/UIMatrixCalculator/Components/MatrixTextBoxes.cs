@@ -1,4 +1,5 @@
 ﻿using System.Drawing.Drawing2D;
+using System.Numerics;
 using MatrixLabs;
 
 namespace UIMatrixCalculator.Components;
@@ -35,14 +36,14 @@ public class MatrixTextBoxes
         }
     }
 
-    public Matrix<Rational> CreateMatrix()
+    public Matrix<T> CreateMatrix<T>() where T: INumber<T>
     {
-        var matrix = new Matrix<Rational>(Size);
+        var matrix = new Matrix<T>(Size);
         for (var i = 0; i < Size; i++)
         {
             for (var j = 0; j < Size; j++)
             {
-                matrix[i, j] = Rational.Parse(Cells[i, j].Text.Trim(), null);
+                matrix[i, j] = T.Parse(Cells[i, j].Text.Trim(), null);
             }
         }
 
@@ -60,7 +61,7 @@ public class MatrixTextBoxes
         return list.ToArray();
     }
     
-    public void SetMatrix(Matrix<Rational> matrix)
+    public void SetMatrix<T>(Matrix<T> matrix) where T: INumber<T>
     {
         for (var i = 0; i < Size; i++)
         {

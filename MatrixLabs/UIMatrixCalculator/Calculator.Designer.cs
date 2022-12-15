@@ -31,19 +31,58 @@ partial class Calculator
     /// </summary>
     private void InitializeComponent()
     {
-        this.components = new System.ComponentModel.Container();
-        this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-        this.ClientSize = new System.Drawing.Size(800, 400);
-        this.Text = "MatrixCalculator";
-        
-        SetSizeButton = new SetSizeButton();
-        SetSizeButton.Click += new EventHandler(SetSizeClick);
-        this.Controls.Add(SetSizeButton);
+            this.SetSizeButton = new UIMatrixCalculator.Components.SetSizeButton();
+            this.SetSizeTestBox = new UIMatrixCalculator.Components.SetSizeTestBox();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.SuspendLayout();
+            // 
+            // SetSizeButton
+            // 
+            this.SetSizeButton.Location = new System.Drawing.Point(100, 0);
+            this.SetSizeButton.Name = "SetSizeButton";
+            this.SetSizeButton.Size = new System.Drawing.Size(50, 25);
+            this.SetSizeButton.TabIndex = 0;
+            this.SetSizeButton.Text = "SetSize";
+            this.SetSizeButton.Click += new System.EventHandler(this.SetSizeClick);
+            // 
+            // SetSizeTestBox
+            // 
+            this.SetSizeTestBox.Location = new System.Drawing.Point(0, 0);
+            this.SetSizeTestBox.Name = "SetSizeTestBox";
+            this.SetSizeTestBox.Size = new System.Drawing.Size(50, 23);
+            this.SetSizeTestBox.TabIndex = 1;
+            this.SetSizeTestBox.Text = "SetSize";
+            // 
+            // comboBox1
+            // 
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Items.AddRange(new object[] {
+            "int",
+            "float",
+            "rational",
+            "double"});
+            this.comboBox1.Location = new System.Drawing.Point(667, 2);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(121, 23);
+            this.comboBox1.TabIndex = 2;
+            // 
+            // Calculator
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(800, 400);
+            this.Controls.Add(this.comboBox1);
+            this.Controls.Add(this.SetSizeButton);
+            this.Controls.Add(this.SetSizeTestBox);
+            this.Name = "Calculator";
+            this.Text = "MatrixCalculator";
+            this.ResumeLayout(false);
+            this.PerformLayout();
 
-        SetSizeTestBox = new SetSizeTestBox();
-        this.Controls.Add(SetSizeTestBox);
     }
-    protected TextBox SetSizeTestBox;
-    protected Button SetSizeButton;
     #endregion
+
+    protected ComboBox comboBox1;
+    protected SetSizeTestBox SetSizeTestBox;
+    protected SetSizeButton SetSizeButton;
 }
