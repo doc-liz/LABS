@@ -1,6 +1,7 @@
 ﻿using MatrixLabs;
 
-var matrices = FileParser.CreateMatrixList<Rational>("Matrices.txt");
+var matrices = FileParser.CreateMatrixList<int>("Matrices.txt");
+matrices.Print();
 matrices.SwitchLastFirst();
 Console.WriteLine("matrices.SwitchLastFirst()");
 matrices.Print();

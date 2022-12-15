@@ -11,6 +11,7 @@ public class MatrixArrayList<T> : MatrixContainer<T> where T : INumber<T>
     {
         matrices = new ArrayList();
         matrices.AddRange(matrixArray);
+        DeleteNegative();
     }
 
     public override Matrix<T> SumAll()

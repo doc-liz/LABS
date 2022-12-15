@@ -10,6 +10,7 @@ public class MatrixList<T> : MatrixContainer<T> where T : INumber<T>
     {
         matrices = new List<Matrix<T>>();
         matrices.AddRange(matrixArray);
+        DeleteAllNegative();
     }
 
     public override Matrix<T> SumAll()
@@ -17,7 +18,7 @@ public class MatrixList<T> : MatrixContainer<T> where T : INumber<T>
         var result = matrices[0];
         for (var i = 1; i < matrices.Count; i++)
         {
-            result +=  matrices[i];
+            result += matrices[i];
         }
 
         return result;
@@ -34,6 +35,10 @@ public class MatrixList<T> : MatrixContainer<T> where T : INumber<T>
         return result;
     }
 
+
+
+
+
     protected override void DeleteNegative()
     {
         for (int i = 0; i < matrices.Count; i++)
@@ -45,6 +50,15 @@ public class MatrixList<T> : MatrixContainer<T> where T : INumber<T>
                 i--;
             }
         }
+    }
+
+    protected void DeleteAllNegative()
+    {
+        matrices.RemoveAll(delegate (Matrix<T> array)
+        {
+         return (IsContainsNegative(array));
+        });
+
     }
 
     public override void SwitchLastFirst()

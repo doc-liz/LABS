@@ -30,13 +30,29 @@ public struct Rational : INumber<Rational>
         return i;
     }
 
-    public override string ToString() => Z!=1 ? $"{C}/{Z}" : $"{C}";
+    public override string ToString() => Z != 1 ? $"{C}/{Z}" : $"{C}";
 
     public string ToString(string? format, IFormatProvider? formatProvider) => ToString();
 
-    public static Rational Parse(string s, IFormatProvider? provider) => new Rational(int.Parse(s), 1);
+    public static Rational Parse(string s, IFormatProvider? provider)
+    {
+        var num = s.Split('/');
+        if (num.Length == 2)
+        {
+            return new Rational(int.Parse(num[0]), int.Parse(num[1]));
+        }
+        return new Rational(int.Parse(num[0]), 1);
+    }
 
-    public static Rational Parse(ReadOnlySpan<char> s, IFormatProvider? provider) => new Rational(int.Parse(s), 1);
+    public static Rational Parse(ReadOnlySpan<char> s, IFormatProvider? provider) 
+    {
+        var num = s.ToString().Split('/');
+        if (num.Length == 2)
+        {
+            return new Rational(int.Parse(num[0]), int.Parse(num[1]));
+        }
+        return new Rational(int.Parse(num[0]), 1);
+    } 
 
     #region Операторы математических операций
 

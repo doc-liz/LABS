@@ -9,6 +9,7 @@ public class MatrixArray<T> : MatrixContainer<T> where T : INumber<T>
     public MatrixArray(Matrix<T>[] matrices)
     {
         this.matrices = matrices;
+        DeleteNegative();
     }
 
     public override Matrix<T> SumAll()
